@@ -319,16 +319,18 @@ return [
     */
 
     'webhooks' => [
-        /*
-            [
-                'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', 'ORDERS_CREATE'),
-                'address' => env('SHOPIFY_WEBHOOK_1_ADDRESS', 'https://some-app.com/webhook/orders-create')
-            ], [
-                'topic' => env('SHOPIFY_WEBHOOK_2_TOPIC', 'APP_PURCHASES_ONE_TIME_UPDATE'),
-                'address' => env('SHOPIFY_WEBHOOK_2_ADDRESS', 'https://some-app.com/webhook/purchase'),
-            ]
-            ...
-        */
+        [
+            'topic' => 'ORDERS_CREATE',
+            'address' =>  env('WEBHOOK_APP_URL').'/webhook/orders-create' // TODO Needs to add address
+        ],
+        [
+            'topic' => 'THEMES_UPDATE',
+            'address' => env('WEBHOOK_APP_URL').'/webhook/themes-update'
+        ],
+        [
+            'topic' => 'APP_UNINSTALLED',
+            'address' => env('WEBHOOK_APP_URL').'/webhook/app-uninstalled'
+        ],
     ],
 
     /*
@@ -361,12 +363,10 @@ return [
     */
 
     'after_authenticate_job' => [
-        /*
-            [
-                'job' => env('AFTER_AUTHENTICATE_JOB'), // example: \App\Jobs\AfterAuthorizeJob::class
-                'inline' => env('AFTER_AUTHENTICATE_JOB_INLINE', false) // False = dispatch job for later, true = dispatch immediately
-            ],
-        */
+        [
+            'job' =>\App\Jobs\AfterAuthenticateJob::class,
+            'inline' => env('AFTER_AUTHENTICATE_JOB_INLINE', true) // False = dispatch job for later, true = dispatch immediately
+        ],
     ],
 
     /*

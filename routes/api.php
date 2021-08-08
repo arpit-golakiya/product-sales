@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::group(["middleware" => "verify.shopdomain", 'prefix' => '{ShopifyShop}'],function(){
+//    Route::get('/get-transaction-data',[TransactionController::class,'allTransactionData'])->name('transaction.allTransactionData');
+    Route::get('/get-transaction-data-for-product/{productId}',[TransactionController::class,'transactionDataForSingleProduct'])->name('transaction.transactionDataForSingleProduct');
 });
